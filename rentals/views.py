@@ -1,29 +1,11 @@
 from django.views import generic
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect
 from django.core.mail import send_mail
 from django_filters.views import FilterView
 from .models import Property, TeamMember, Booking
 from .forms import BookingForm, ContactForm
 import django_filters
-
-
-class HomeView(generic.TemplateView):
-    """Render the luxury landing page as the site's homepage."""
-    template_name = 'luxury_home.html'
-
-
-class LuxuryHomeView(generic.TemplateView):
-    template_name = 'luxury_home.html'
-
-
-class LuxuryPropertiesView(generic.TemplateView):
-    """Display the luxury property listings page."""
-    template_name = 'luxury_properties.html'
-
-
-class LuxuryAboutView(generic.TemplateView):
-    """Dedicated luxury about page."""
-    template_name = 'luxury_about.html'
 
 
 class PropertyFilter(django_filters.FilterSet):
@@ -34,6 +16,46 @@ class PropertyFilter(django_filters.FilterSet):
             'rental_type': ['exact'],
             'bedrooms': ['gte'],
         }
+
+
+class HomeView(FilterView):
+    """Render the luxury landing page as the site's homepage."""
+    model = Property
+    paginate_by = 10
+    filterset_class = PropertyFilter
+    template_name = 'luxury_home.html'
+
+
+class LuxuryHomeView(FilterView): # Changed from generic.TemplateView
+    model = Property
+    paginate_by = 10
+    filterset_class = PropertyFilter
+    template_name = 'luxury_home.html'
+
+    def get(self, request, *args, **kwargs):
+        filter_fields = self.filterset_class.get_fields().keys()
+        filter_params_found = False
+        for param_key in request.GET.keys():
+            base_param_key = param_key.split('__')[0]
+            if base_param_key in filter_fields:
+                filter_params_found = True
+                break
+
+        if filter_params_found and request.GET:
+            query_string = request.GET.urlencode()
+            return redirect(f"{reverse('rentals:property_list')}?{query_string}")
+
+        return super().get(request, *args, **kwargs)
+
+
+class LuxuryPropertiesView(generic.TemplateView):
+    """Display the luxury property listings page."""
+    template_name = 'luxury_properties.html'
+
+
+class LuxuryAboutView(generic.TemplateView):
+    """Dedicated luxury about page."""
+    template_name = 'luxury_about.html'
 
 
 class PropertyListView(FilterView):
