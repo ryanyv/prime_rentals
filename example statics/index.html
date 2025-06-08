@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<ht  opml lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Rentals - Luxury Living Redefined</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <div class="logo">
+                    <h1 class="logo__text">Prime Rentals</h1>
+                    <span class="logo__tagline">Luxury Living Redefined</span>
+                </div>
+                <nav class="nav">
+                    <a href="#hero" class="nav__link">Home</a>
+                    <a href="#about" class="nav__link">About</a>
+                    <a href="#properties" class="nav__link">Properties</a>
+                    <a href="#payment" class="nav__link">Payment</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero__overlay"></div>
+        <div class="container">
+            <div class="hero__content">
+                <h1 class="hero__title">Exclusive Properties in Prestigious Locations</h1>
+                <p class="hero__subtitle">Discover luxury accommodations for every occasion</p>
+                
+                <!-- Search Tabs -->
+                <div class="search-tabs">
+                    <button class="search-tab active" data-tab="short-term">Short-term Stays</button>
+                    <button class="search-tab" data-tab="long-term">Long-term Rentals</button>
+                </div>
+
+                <!-- Short-term Search -->
+                <div id="short-term-search" class="search-container active">
+                    <div class="search-bar">
+                        <div class="search-field">
+                            <label class="search-label">Location</label>
+                            <input type="text" id="location-short" class="search-input" placeholder="Where are you going?">
+                        </div>
+                        <div class="search-field">
+                            <label class="search-label">Check-in</label>
+                            <input type="date" id="checkin" class="search-input">
+                        </div>
+                        <div class="search-field">
+                            <label class="search-label">Check-out</label>
+                            <input type="date" id="checkout" class="search-input">
+                        </div>
+                        <div class="search-field">
+                            <label class="search-label">Guests</label>
+                            <select id="guests" class="search-input">
+                                <option value="1">1 Guest</option>
+                                <option value="2">2 Guests</option>
+                                <option value="4">4 Guests</option>
+                                <option value="6">6 Guests</option>
+                                <option value="8">8+ Guests</option>
+                            </select>
+                        </div>
+                        <button class="search-btn">Search</button>
+                    </div>
+                    
+                    <!-- Quick Filters -->
+                    <div class="quick-filters">
+                        <button class="filter-pill active" data-filter="all">All Types</button>
+                        <button class="filter-pill" data-filter="entire">Entire Place</button>
+                        <button class="filter-pill" data-filter="private">Private Room</button>
+                        <button class="filter-pill" data-filter="shared">Shared Room</button>
+                    </div>
+                </div>
+
+                <!-- Long-term Search -->
+                <div id="long-term-search" class="search-container">
+                    <div class="search-bar">
+                        <div class="search-field">
+                            <label class="search-label">Location</label>
+                            <input type="text" id="location-long" class="search-input" placeholder="City or neighborhood">
+                        </div>
+                        <div class="search-field">
+                            <label class="search-label">Move-in Date</label>
+                            <input type="date" id="movein" class="search-input">
+                        </div>
+                        <div class="search-field">
+                            <label class="search-label">Lease Duration</label>
+                            <select id="lease" class="search-input">
+                                <option value="6">6 months</option>
+                                <option value="12">12 months</option>
+                                <option value="24">24 months</option>
+                                <option value="flexible">Flexible</option>
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <label class="search-label">Budget</label>
+                            <select id="budget" class="search-input">
+                                <option value="0-2000">Under $2,000</option>
+                                <option value="2000-3500">$2,000 - $3,500</option>
+                                <option value="3500-5000">$3,500 - $5,000</option>
+                                <option value="5000+">$5,000+</option>
+                            </select>
+                        </div>
+                        <button class="search-btn">Search</button>
+                    </div>
+                    
+                    <!-- Long-term Filters -->
+                    <div class="quick-filters">
+                        <button class="filter-pill active" data-filter="all">All Properties</button>
+                        <button class="filter-pill" data-filter="furnished">Furnished</button>
+                        <button class="filter-pill" data-filter="pets">Pet-Friendly</button>
+                        <button class="filter-pill" data-filter="parking">Parking</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Our Elite Team</h2>
+            <p class="section-subtitle">Meet the luxury real estate experts dedicated to your perfect stay</p>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&crop=face" alt="Sarah Johnson" class="team-image">
+                    <div class="team-info">
+                        <h3 class="team-name">Sarah Johnson</h3>
+                        <p class="team-role">Founding Partner & CEO</p>
+                        <p class="team-experience">15+ years in luxury real estate</p>
+                        <div class="team-specialties">
+                            <span class="specialty-tag">Luxury Properties</span>
+                            <span class="specialty-tag">International Clients</span>
+                            <span class="specialty-tag">Investment Advisory</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face" alt="Michael Chen" class="team-image">
+                    <div class="team-info">
+                        <h3 class="team-name">Michael Chen</h3>
+                        <p class="team-role">Director of Short-Term Rentals</p>
+                        <p class="team-experience">10+ years in hospitality & vacation rentals</p>
+                        <div class="team-specialties">
+                            <span class="specialty-tag">Vacation Properties</span>
+                            <span class="specialty-tag">Revenue Optimization</span>
+                            <span class="specialty-tag">Guest Experience</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop&crop=face" alt="Elena Rodriguez" class="team-image">
+                    <div class="team-info">
+                        <h3 class="team-name">Elena Rodriguez</h3>
+                        <p class="team-role">Long-Term Rental Specialist</p>
+                        <p class="team-experience">8+ years in residential leasing</p>
+                        <div class="team-specialties">
+                            <span class="specialty-tag">Residential Leasing</span>
+                            <span class="specialty-tag">Tenant Relations</span>
+                            <span class="specialty-tag">Property Management</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties Section -->
+    <section id="properties" class="properties">
+        <div class="container">
+            <h2 class="section-title">Featured Properties</h2>
+            
+            <!-- Property Type Toggle -->
+            <div class="property-toggle">
+                <button class="toggle-btn active" data-type="short-term">Short-term Stays</button>
+                <button class="toggle-btn" data-type="long-term">Long-term Rentals</button>
+            </div>
+
+            <!-- Short-term Properties -->
+            <div id="short-term-properties" class="property-grid active">
+                <!-- Properties will be populated by JavaScript -->
+            </div>
+
+            <!-- Long-term Properties -->
+            <div id="long-term-properties" class="property-grid">
+                <!-- Properties will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section id="payment" class="payment">
+        <div class="container">
+            <h2 class="section-title">Premium Payment Options</h2>
+            <p class="section-subtitle">Choose from our secure and convenient payment methods</p>
+            
+            <div class="payment-grid">
+                <div class="payment-card">
+                    <div class="payment-icon">💳</div>
+                    <h3 class="payment-title">Credit/Debit Card</h3>
+                    <p class="payment-fee">2.9% processing fee</p>
+                    <p class="payment-description">Secure payment with major credit cards</p>
+                    <ul class="payment-features">
+                        <li>Instant Processing</li>
+                        <li>Secure Transactions</li>
+                        <li>All Major Cards</li>
+                    </ul>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">💵</div>
+                    <h3 class="payment-title">Cash Payment</h3>
+                    <p class="payment-fee">No fees</p>
+                    <p class="payment-description">In-person cash transactions</p>
+                    <ul class="payment-features">
+                        <li>No Fees</li>
+                        <li>Local Transactions</li>
+                        <li>Immediate Payment</li>
+                    </ul>
+                </div>
+                
+                <div class="payment-card">
+                    <div class="payment-icon">₿</div>
+                    <h3 class="payment-title">Cryptocurrency</h3>
+                    <p class="payment-fee">0.5% processing fee</p>
+                    <p class="payment-description">Bitcoin & Ethereum accepted</p>
+                    <ul class="payment-features">
+                        <li>Low Fees</li>
+                        <li>Blockchain Security</li>
+                        <li>Future of Payments</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__brand">
+                    <h3 class="footer__title">Prime Rentals</h3>
+                    <p class="footer__tagline">Luxury Living Redefined</p>
+                </div>
+                <div class="footer__links">
+                    <a href="#" class="footer__link">Privacy Policy</a>
+                    <a href="#" class="footer__link">Terms of Service</a>
+                    <a href="#" class="footer__link">Contact Us</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2025 Prime Rentals. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
