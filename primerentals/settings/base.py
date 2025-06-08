@@ -1,17 +1,31 @@
 import os
 from pathlib import Path
-import environ
-
-env = environ.Env(
-    DEBUG=(bool, False)
-)
+try:
+    import environ
+except ImportError:  # pragma: no cover - allow running without django-environ installed
+    environ = None
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = env('SECRET_KEY', default='insecure')
-DEBUG = env.bool('DEBUG', default=False)
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+if environ:
+    env = environ.Env(DEBUG=(bool, False))
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+    SECRET_KEY = env('SECRET_KEY', default='insecure')
+    DEBUG = env.bool('DEBUG', default=False)
+    ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+    DATABASES = {
+        'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
+    }
+else:
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure')
+    DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -58,10 +72,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'primerentals.wsgi.application'
-
-DATABASES = {
-    'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
-}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
