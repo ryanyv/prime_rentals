@@ -149,28 +149,39 @@ function populateLocationOptions() {
   });
 }
 
+function formatDate(date) {
+  return date.toISOString().split('T')[0];
+}
+
+function formatDateTime(date) {
+  return (
+    date.getFullYear() +
+    '-' +
+    String(date.getMonth() + 1).padStart(2, '0') +
+    '-' +
+    String(date.getDate()).padStart(2, '0') +
+    ' ' +
+    String(date.getHours()).padStart(2, '0') +
+    ':' +
+    String(date.getMinutes()).padStart(2, '0')
+  );
+}
+
 function setDefaultDates() {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  const formatDate = (date) => date.toISOString().split('T')[0];
-  const formatDateTime = (date) => {
-    return date.getFullYear() + '-' +
-      String(date.getMonth() + 1).padStart(2, '0') + '-' +
-      String(date.getDate()).padStart(2, '0') + ' ' +
-      String(date.getHours()).padStart(2, '0') + ':' +
-      String(date.getMinutes()).padStart(2, '0');
-  };
-
   document.getElementById('checkin').value = formatDateTime(today);
   document.getElementById('checkout').value = formatDateTime(tomorrow);
+  document.getElementById('daterange').value =
+    formatDateTime(today) + ' to ' + formatDateTime(tomorrow);
   document.getElementById('movein').value = formatDate(today);
 }
 
 function initDatePicker() {
   if (typeof flatpickr === 'undefined') return;
-  flatpickr('#checkin', {
+  flatpickr('#daterange', {
     mode: 'range',
     enableTime: true,
     dateFormat: 'Y-m-d H:i',
@@ -179,7 +190,12 @@ function initDatePicker() {
       document.getElementById('checkin').value,
       document.getElementById('checkout').value
     ],
-    plugins: [new rangePlugin({ input: '#checkout' })]
+    onChange: function(selectedDates) {
+      if (selectedDates.length === 2) {
+        document.getElementById('checkin').value = formatDateTime(selectedDates[0]);
+        document.getElementById('checkout').value = formatDateTime(selectedDates[1]);
+      }
+    }
   });
 }
 
@@ -291,6 +307,10 @@ function applyQueryParams() {
     if (params.get('location')) document.getElementById('location-short').value = params.get('location');
     if (params.get('checkin')) document.getElementById('checkin').value = params.get('checkin');
     if (params.get('checkout')) document.getElementById('checkout').value = params.get('checkout');
+    if (params.get('checkin') && params.get('checkout')) {
+      document.getElementById('daterange').value =
+        params.get('checkin') + ' to ' + params.get('checkout');
+    }
     if (params.get('guests')) {
       document.getElementById('guests').value = params.get('guests');
       adults = parseInt(params.get('adults') || params.get('guests')) || 1;

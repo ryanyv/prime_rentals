@@ -1435,7 +1435,7 @@ select.search-input {
 
 /* Flatpickr custom styling */
 .flatpickr-calendar {
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .flatpickr-day.inRange,
@@ -1444,4 +1444,6 @@ select.search-input {
 .flatpickr-day.selected {
   background: var(--color-primary);
   color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
