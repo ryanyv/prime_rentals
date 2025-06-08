@@ -789,12 +789,37 @@ p {
 
 /* Hero Section */
 .hero {
-  background: var(--black-gold-gradient);
   min-height: 100vh;
   display: flex;
   align-items: center;
   position: relative;
   overflow: hidden;
+  color: var(--color-surface);
+}
+
+.hero-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.hero-slide.active {
+  opacity: 1;
 }
 
 .hero__overlay {
@@ -803,7 +828,8 @@ p {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, rgba(212, 172, 13, 0.1) 0%, rgba(0, 0, 0, 0.8) 70%);
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }
 
 .hero__content {
