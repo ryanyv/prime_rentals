@@ -3,6 +3,7 @@ pillow
 django-environ
 django-cleanup
 django-crispy-forms
+crispy-bootstrap5
 django-filter
 django-widget-tweaks
 whitenoise
