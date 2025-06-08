@@ -193,7 +193,7 @@ function setupGuestDropdown() {
 
   updateGuestDisplay();
 
-  guestField.addEventListener('click', () => {
+  guestsDisplay.addEventListener('click', () => {
     guestField.classList.toggle('active');
   });
 
@@ -204,10 +204,16 @@ function setupGuestDropdown() {
   });
 
   guestMenu.querySelectorAll('.guest-plus').forEach(btn => {
-    btn.addEventListener('click', () => changeGuestCount(btn.dataset.type, 1));
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      changeGuestCount(btn.dataset.type, 1);
+    });
   });
   guestMenu.querySelectorAll('.guest-minus').forEach(btn => {
-    btn.addEventListener('click', () => changeGuestCount(btn.dataset.type, -1));
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      changeGuestCount(btn.dataset.type, -1);
+    });
   });
 }
 
