@@ -8,7 +8,8 @@ import django_filters
 
 
 class HomeView(generic.TemplateView):
-    template_name = 'home.html'
+    """Render the luxury landing page as the site's homepage."""
+    template_name = 'luxury_home.html'
 
 
 class LuxuryHomeView(generic.TemplateView):
