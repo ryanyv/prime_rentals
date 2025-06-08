@@ -11,6 +11,10 @@ class HomeView(generic.TemplateView):
     template_name = 'home.html'
 
 
+class LuxuryHomeView(generic.TemplateView):
+    template_name = 'luxury_home.html'
+
+
 class PropertyFilter(django_filters.FilterSet):
     class Meta:
         model = Property
