@@ -344,15 +344,17 @@ function createLongTermPropertyCard(property) {
 }
 
 function handleSmoothScroll(e) {
-  e.preventDefault();
   const targetId = e.target.getAttribute('href');
-  const targetElement = document.querySelector(targetId);
-  
-  if (targetElement) {
-    targetElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
+  // Only intercept anchor links on the same page
+  if (targetId && targetId.startsWith('#')) {
+    e.preventDefault();
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 }
 
