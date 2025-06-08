@@ -115,10 +115,11 @@ function initLuxuryPage() {
   initializeApp();
   populateLocationOptions();
   setDefaultDates();
+  applyQueryParams();
+  initDatePicker();
   renderProperties();
   setupEventListeners();
   setupGuestDropdown();
-  applyQueryParams();
 }
 
 if (document.readyState === 'loading') {
@@ -152,14 +153,34 @@ function setDefaultDates() {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
-  
-  const formatDate = (date) => {
-    return date.toISOString().split('T')[0];
+
+  const formatDate = (date) => date.toISOString().split('T')[0];
+  const formatDateTime = (date) => {
+    return date.getFullYear() + '-' +
+      String(date.getMonth() + 1).padStart(2, '0') + '-' +
+      String(date.getDate()).padStart(2, '0') + ' ' +
+      String(date.getHours()).padStart(2, '0') + ':' +
+      String(date.getMinutes()).padStart(2, '0');
   };
-  
-  document.getElementById('checkin').value = formatDate(today);
-  document.getElementById('checkout').value = formatDate(tomorrow);
+
+  document.getElementById('checkin').value = formatDateTime(today);
+  document.getElementById('checkout').value = formatDateTime(tomorrow);
   document.getElementById('movein').value = formatDate(today);
+}
+
+function initDatePicker() {
+  if (typeof flatpickr === 'undefined') return;
+  flatpickr('#checkin', {
+    mode: 'range',
+    enableTime: true,
+    dateFormat: 'Y-m-d H:i',
+    minDate: 'today',
+    defaultDate: [
+      document.getElementById('checkin').value,
+      document.getElementById('checkout').value
+    ],
+    plugins: [new rangePlugin({ input: '#checkout' })]
+  });
 }
 
 function setupEventListeners() {

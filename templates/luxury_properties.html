@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime Rentals - Luxury Living Redefined</title>
     <link rel="stylesheet" href="{% static 'luxury/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -42,11 +43,11 @@
                     </div>
                         <div class="search-field">
                             <label class="search-label">Check-in</label>
-                            <input type="date" id="checkin" class="search-input">
+                            <input type="text" id="checkin" class="search-input" placeholder="Arrival">
                         </div>
                         <div class="search-field">
                             <label class="search-label">Check-out</label>
-                            <input type="date" id="checkout" class="search-input">
+                            <input type="text" id="checkout" class="search-input" placeholder="Departure">
                         </div>
                     <div class="search-field guest-field">
                         <label class="search-label">Guests</label>
@@ -142,6 +143,8 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/rangePlugin.js"></script>
     <script src="{% static 'luxury/app.js' %}"></script>
 </body>
 </html>
