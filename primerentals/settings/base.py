@@ -1,9 +1,16 @@
 import os
 from pathlib import Path
+import importlib
 try:
     import environ
 except ImportError:  # pragma: no cover - allow running without django-environ installed
     environ = None
+
+try:
+    importlib.import_module('django_cleanup')
+    CLEANUP_APP = 'django_cleanup.apps.CleanupConfig'
+except ImportError:  # pragma: no cover - django-cleanup optional
+    CLEANUP_APP = None
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -34,13 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_cleanup.apps.CleanupConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     'widget_tweaks',
     'django_filters',
     'rentals',
 ]
+
+if CLEANUP_APP:
+    INSTALLED_APPS.append(CLEANUP_APP)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
