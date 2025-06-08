@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h2>Properties</h2>
+<h2>{{ page_title|default:"Properties" }}</h2>
 <form method="get" class="mb-3">
     {{ filter.form|crispy }}
     <button type="submit" class="btn btn-primary">Filter</button>

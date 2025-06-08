@@ -3,6 +3,11 @@
 <h2>{{ object.title }}</h2>
 <img src="{{ object.main_image.url }}" class="img-fluid mb-3">
 <p>{{ object.description }}</p>
+<div class="mb-3">
+    <iframe width="100%" height="450" style="border:0" loading="lazy" allowfullscreen
+        src="https://www.google.com/maps?q={{ object.location|urlencode }}&output=embed">
+    </iframe>
+</div>
 <h4>Gallery</h4>
 <div class="row">
     {% for img in object.gallery.all %}

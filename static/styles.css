@@ -1,0 +1,39 @@
+body {
+    background-color: #000;
+    color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    background-color: #000;
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: #d4af37;
+}
+
+.navbar .nav-link:hover {
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: #d4af37;
+    border-color: #d4af37;
+    color: #000;
+}
+
+.btn-primary:hover {
+    background-color: #bfa133;
+    border-color: #bfa133;
+}
+
+.card {
+    background-color: #111;
+    border: 1px solid #333;
+    color: #f5f5f5;
+}
+
+.container h2 {
+    color: #d4af37;
+}
