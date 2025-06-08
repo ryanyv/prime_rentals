@@ -110,6 +110,7 @@ const searchButtons = document.querySelectorAll('.search-btn');
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
   initializeApp();
+  populateLocationOptions();
   setDefaultDates();
   renderProperties();
   setupEventListeners();
@@ -121,6 +122,19 @@ function initializeApp() {
   document.querySelector('#short-term-search').classList.add('active');
   document.querySelector('[data-type="short-term"]').classList.add('active');
   document.querySelector('#short-term-properties').classList.add('active');
+}
+
+function populateLocationOptions() {
+  const locations = [...appData.shortTermProperties, ...appData.longTermProperties]
+    .map(p => p.location);
+  const unique = [...new Set(locations)];
+  ['location-short', 'location-long'].forEach(id => {
+    const select = document.getElementById(id);
+    if (select) {
+      select.innerHTML = '<option value="">All Locations</option>' +
+        unique.map(loc => `<option value="${loc}">${loc}</option>`).join('');
+    }
+  });
 }
 
 function setDefaultDates() {
@@ -222,14 +236,14 @@ function handleSearch(e) {
 function getSearchParameters(isShortTerm) {
   if (isShortTerm) {
     return {
-      location: document.getElementById('location-short').value.toLowerCase(),
+      location: document.getElementById('location-short').value,
       checkin: document.getElementById('checkin').value,
       checkout: document.getElementById('checkout').value,
       guests: parseInt(document.getElementById('guests').value)
     };
   } else {
     return {
-      location: document.getElementById('location-long').value.toLowerCase(),
+      location: document.getElementById('location-long').value,
       movein: document.getElementById('movein').value,
       lease: document.getElementById('lease').value,
       budget: document.getElementById('budget').value
@@ -242,7 +256,7 @@ function filterProperties(params, isShortTerm) {
   
   return properties.filter(property => {
     // Location filter
-    if (params.location && !property.location.toLowerCase().includes(params.location)) {
+    if (params.location && params.location !== '' && property.location !== params.location) {
       return false;
     }
     
