@@ -28,6 +28,26 @@ class PropertyListView(FilterView):
     template_name = 'property_list.html'
 
 
+class ShortTermListView(PropertyListView):
+    def get_queryset(self):
+        return super().get_queryset().filter(rental_type=Property.SHORT)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Short Term Rentals'
+        return context
+
+
+class LongTermListView(PropertyListView):
+    def get_queryset(self):
+        return super().get_queryset().filter(rental_type=Property.LONG)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Long Term Rentals'
+        return context
+
+
 class PropertyDetailView(generic.DetailView):
     model = Property
     template_name = 'property_detail.html'
