@@ -21,6 +21,11 @@ class LuxuryPropertiesView(generic.TemplateView):
     template_name = 'luxury_properties.html'
 
 
+class LuxuryAboutView(generic.TemplateView):
+    """Dedicated luxury about page."""
+    template_name = 'luxury_about.html'
+
+
 class PropertyFilter(django_filters.FilterSet):
     class Meta:
         model = Property

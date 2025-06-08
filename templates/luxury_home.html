@@ -19,7 +19,7 @@
                 </div>
                 <nav class="nav">
                     <a href="#hero" class="nav__link">Home</a>
-                    <a href="#about" class="nav__link">About</a>
+                    <a href="{% url 'rentals:luxury_about' %}" class="nav__link">About</a>
                     <a href="{% url 'rentals:luxury_properties' %}" class="nav__link">Properties</a>
                     <a href="#payment" class="nav__link">Payment</a>
                 </nav>
@@ -114,56 +114,6 @@
             </div>
         </div>
     </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">Our Elite Team</h2>
-            <p class="section-subtitle">Meet the luxury real estate experts dedicated to your perfect stay</p>
-            <div class="team-grid">
-                <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&crop=face" alt="Sarah Johnson" class="team-image">
-                    <div class="team-info">
-                        <h3 class="team-name">Sarah Johnson</h3>
-                        <p class="team-role">Founding Partner & CEO</p>
-                        <p class="team-experience">15+ years in luxury real estate</p>
-                        <div class="team-specialties">
-                            <span class="specialty-tag">Luxury Properties</span>
-                            <span class="specialty-tag">International Clients</span>
-                            <span class="specialty-tag">Investment Advisory</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face" alt="Michael Chen" class="team-image">
-                    <div class="team-info">
-                        <h3 class="team-name">Michael Chen</h3>
-                        <p class="team-role">Director of Short-Term Rentals</p>
-                        <p class="team-experience">10+ years in hospitality & vacation rentals</p>
-                        <div class="team-specialties">
-                            <span class="specialty-tag">Vacation Properties</span>
-                            <span class="specialty-tag">Revenue Optimization</span>
-                            <span class="specialty-tag">Guest Experience</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop&crop=face" alt="Elena Rodriguez" class="team-image">
-                    <div class="team-info">
-                        <h3 class="team-name">Elena Rodriguez</h3>
-                        <p class="team-role">Long-Term Rental Specialist</p>
-                        <p class="team-experience">8+ years in residential leasing</p>
-                        <div class="team-specialties">
-                            <span class="specialty-tag">Residential Leasing</span>
-                            <span class="specialty-tag">Tenant Relations</span>
-                            <span class="specialty-tag">Property Management</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
 
     <!-- Payment Section -->
     <section id="payment" class="payment">
