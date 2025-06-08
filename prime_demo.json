@@ -1,0 +1,35 @@
+[
+  {
+    "model": "rentals.property",
+    "pk": 1,
+    "fields": {
+      "title": "Demo Property",
+      "slug": "demo-property",
+      "description": "Sample description",
+      "location": "Demo City",
+      "price_nightly": "100.00",
+      "price_monthly": "1500.00",
+      "rental_type": "short",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "guests": 4,
+      "sqft": 750,
+      "available_from": "2025-01-01",
+      "available_to": "2025-12-31",
+      "rating": 0,
+      "main_image": "properties/main/demo.jpg"
+    }
+  },
+  {
+    "model": "rentals.teammember",
+    "pk": 1,
+    "fields": {
+      "name": "Alice Agent",
+      "role": "Manager",
+      "bio": "Expert agent",
+      "years_experience": 5,
+      "image": "team/alice.jpg",
+      "specialties": "Rentals"
+    }
+  }
+]

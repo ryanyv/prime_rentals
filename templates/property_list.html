@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>Properties</h2>
+<form method="get" class="mb-3">
+    {{ filter.form|crispy }}
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+<div class="row">
+    {% for property in filter.qs %}
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <img src="{{ property.main_image.url }}" class="card-img-top" alt="{{ property.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ property.title }}</h5>
+                <p class="card-text">{{ property.location }}</p>
+                <a href="{% url 'rentals:property_detail' property.slug %}" class="btn btn-primary">View</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
