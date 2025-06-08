@@ -40,7 +40,7 @@ class PropertyListView(FilterView):
     model = Property
     paginate_by = 10
     filterset_class = PropertyFilter
-    template_name = 'property_list.html'
+    template_name = 'property_results.html'
 
 
 class ShortTermListView(PropertyListView):
