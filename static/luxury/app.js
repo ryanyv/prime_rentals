@@ -111,7 +111,7 @@ let adults = 1;
 let children = 0;
 
 // Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
+function initLuxuryPage() {
   initializeApp();
   populateLocationOptions();
   setDefaultDates();
@@ -119,7 +119,13 @@ document.addEventListener('DOMContentLoaded', function() {
   setupEventListeners();
   setupGuestDropdown();
   applyQueryParams();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLuxuryPage);
+} else {
+  initLuxuryPage();
+}
 
 function initializeApp() {
   // Set initial active states
