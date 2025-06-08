@@ -5,7 +5,7 @@ from rentals.models import Property
 
 
 @pytest.mark.django_db
-def test_property_list_view(client):
+def test_short_term_list_view(client):
     Property.objects.create(
         title='P1',
         description='d',
@@ -21,7 +21,7 @@ def test_property_list_view(client):
         available_from=timezone.now().date(),
         available_to=timezone.now().date(),
     )
-    url = reverse('rentals:property_list')
+    url = reverse('rentals:short_term_list')
     response = client.get(url)
     assert response.status_code == 200
     assert b'P1' in response.content
