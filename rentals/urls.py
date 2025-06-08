@@ -5,6 +5,9 @@ app_name = 'rentals'
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
+    path('luxury/', views.LuxuryHomeView.as_view(), name='luxury_home'),
+    path('luxury/properties/', views.LuxuryPropertiesView.as_view(), name='luxury_properties'),
+    path('luxury/about/', views.LuxuryAboutView.as_view(), name='luxury_about'),
     path('properties/', views.PropertyListView.as_view(), name='property_list'),
     path('properties/short-term/', views.ShortTermListView.as_view(), name='short_term_list'),
     path('properties/long-term/', views.LongTermListView.as_view(), name='long_term_list'),

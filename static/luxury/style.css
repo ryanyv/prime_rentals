@@ -1,4 +1,3 @@
-
 :root {
   /* Colors */
   --color-background: rgba(252, 252, 249, 1);
@@ -907,6 +906,71 @@ p {
   outline: none;
 }
 
+select.search-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 2rem;
+  background-image: var(--select-caret-dark);
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 16px;
+}
+
+/* Guest dropdown styles */
+.guest-field {
+  position: relative;
+}
+
+.guest-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: var(--luxury-shadow);
+  z-index: 10;
+}
+
+.guest-field.active .guest-menu {
+  display: block;
+}
+
+.guest-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.guest-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.guest-plus,
+.guest-minus {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-muted);
+  color: var(--color-text);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.guest-plus:hover,
+.guest-minus:hover {
+  background: var(--gold-gradient);
+  color: var(--color-btn-primary-text);
+}
+
 .search-input::placeholder {
   color: var(--color-text-muted);
 }
@@ -1075,10 +1139,16 @@ p {
   box-shadow: var(--gold-glow);
 }
 
+/* Compact search header on the properties page */
+.property-search {
+  padding: 2rem 0;
+  background: var(--color-background);
+}
+
 .property-grid {
   display: none;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .property-grid.active {
@@ -1088,7 +1158,7 @@ p {
 .property-card {
   background: var(--color-card-bg);
   border: 2px solid var(--color-border);
-  border-radius: 20px;
+  border-radius: 15px;
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: var(--luxury-shadow);
@@ -1102,18 +1172,18 @@ p {
 
 .property-image {
   width: 100%;
-  height: 250px;
+  height: 180px;
   object-fit: cover;
 }
 
 .property-content {
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 .property-title {
   color: var(--color-text);
   margin-bottom: 0.5rem;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 .property-location {
@@ -1125,8 +1195,8 @@ p {
 .property-price {
   color: var(--color-primary);
   font-weight: 600;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .property-features {
@@ -1140,8 +1210,8 @@ p {
   background: var(--color-surface);
   color: var(--color-text-secondary);
   padding: 0.25rem 0.75rem;
-  border-radius: 15px;
-  font-size: 0.8rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
 }
 
 .property-details {
@@ -1149,7 +1219,7 @@ p {
   justify-content: space-between;
   align-items: center;
   color: var(--color-text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .property-rating {
@@ -1221,7 +1291,7 @@ p {
 }
 
 .payment-features li::before {
-  content: '✓';
+  content: '\2713';
   color: var(--color-primary);
   font-weight: bold;
   margin-right: 0.5rem;

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Rentals - Luxury Living Redefined</title>
+    <link rel="stylesheet" href="{% static 'luxury/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <div class="logo">
+                    <h1 class="logo__text">Prime Rentals</h1>
+                    <span class="logo__tagline">Luxury Living Redefined</span>
+                </div>
+                <nav class="nav">
+                    <a href="{% url 'rentals:home' %}#hero" class="nav__link">Home</a>
+                    <a href="{% url 'rentals:luxury_about' %}" class="nav__link">About</a>
+                    <a href="{% url 'rentals:luxury_properties' %}" class="nav__link">Properties</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section id="search" class="property-search">
+        <div class="container">
+            <div class="search-tabs" style="display: none;">
+                <button class="search-tab active" data-tab="short-term">Short-term Stays</button>
+                <button class="search-tab" data-tab="long-term">Long-term Rentals</button>
+            </div>
+            <!-- Short-term Search -->
+            <div id="short-term-search" class="search-container active">
+                <div class="search-bar">
+                    <div class="search-field">
+                        <label class="search-label">Location</label>
+                        <select id="location-short" class="search-input"></select>
+                    </div>
+                        <div class="search-field">
+                            <label class="search-label">Check-in</label>
+                            <input type="date" id="checkin" class="search-input">
+                        </div>
+                        <div class="search-field">
+                            <label class="search-label">Check-out</label>
+                            <input type="date" id="checkout" class="search-input">
+                        </div>
+                    <div class="search-field guest-field">
+                        <label class="search-label">Guests</label>
+                        <input type="text" id="guests-display" class="search-input" readonly placeholder="Add guests">
+                        <input type="hidden" id="guests" value="1">
+                        <div class="guest-menu">
+                            <div class="guest-row">
+                                <span class="guest-type">Adults</span>
+                                <div class="guest-controls">
+                                    <button type="button" class="guest-minus" data-type="adults">-</button>
+                                    <span id="adults-count">1</span>
+                                    <button type="button" class="guest-plus" data-type="adults">+</button>
+                                </div>
+                            </div>
+                            <div class="guest-row">
+                                <span class="guest-type">Children</span>
+                                <div class="guest-controls">
+                                    <button type="button" class="guest-minus" data-type="children">-</button>
+                                    <span id="children-count">0</span>
+                                    <button type="button" class="guest-plus" data-type="children">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <button class="search-btn">Search</button>
+                    </div>
+                </div>
+            <!-- Long-term Search -->
+            <div id="long-term-search" class="search-container" style="display: none;">
+                <div class="search-bar">
+                    <div class="search-field">
+                        <label class="search-label">Location</label>
+                        <select id="location-long" class="search-input"></select>
+                    </div>
+                        <div class="search-field">
+                            <label class="search-label">Move-in Date</label>
+                            <input type="date" id="movein" class="search-input">
+                        </div>
+                        <div class="search-field">
+                            <label class="search-label">Lease Duration</label>
+                            <select id="lease" class="search-input">
+                                <option value="6">6 months</option>
+                                <option value="12">12 months</option>
+                                <option value="24">24 months</option>
+                                <option value="flexible">Flexible</option>
+                            </select>
+                        </div>
+                        <div class="search-field">
+                            <label class="search-label">Budget</label>
+                            <select id="budget" class="search-input">
+                                <option value="0-2000">Under $2,000</option>
+                                <option value="2000-3500">$2,000 - $3,500</option>
+                                <option value="3500-5000">$3,500 - $5,000</option>
+                                <option value="5000+">$5,000+</option>
+                            </select>
+                        </div>
+                        <button class="search-btn">Search</button>
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <!-- Properties Section -->
+    <section id="properties" class="properties">
+        <div class="container">
+            <h2 class="section-title">Featured Properties</h2>
+            <div class="property-toggle">
+                <button class="toggle-btn active" data-type="short-term">Short-term Stays</button>
+                <button class="toggle-btn" data-type="long-term">Long-term Rentals</button>
+            </div>
+            <div id="short-term-properties" class="property-grid active"></div>
+            <div id="long-term-properties" class="property-grid"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__brand">
+                    <h3 class="footer__title">Prime Rentals</h3>
+                    <p class="footer__tagline">Luxury Living Redefined</p>
+                </div>
+                <div class="footer__links">
+                    <a href="#" class="footer__link">Privacy Policy</a>
+                    <a href="#" class="footer__link">Terms of Service</a>
+                    <a href="#" class="footer__link">Contact Us</a>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2025 Prime Rentals. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'luxury/app.js' %}"></script>
+</body>
+</html>

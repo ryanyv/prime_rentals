@@ -106,14 +106,26 @@ const propertyToggle = document.querySelectorAll('.toggle-btn');
 const propertyGrids = document.querySelectorAll('.property-grid');
 const filterPills = document.querySelectorAll('.filter-pill');
 const searchButtons = document.querySelectorAll('.search-btn');
+let guestField, guestMenu, guestsInput, guestsDisplay, adultsCountEl, childrenCountEl;
+let adults = 1;
+let children = 0;
 
 // Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
+function initLuxuryPage() {
   initializeApp();
+  populateLocationOptions();
   setDefaultDates();
   renderProperties();
   setupEventListeners();
-});
+  setupGuestDropdown();
+  applyQueryParams();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initLuxuryPage);
+} else {
+  initLuxuryPage();
+}
 
 function initializeApp() {
   // Set initial active states
@@ -121,6 +133,19 @@ function initializeApp() {
   document.querySelector('#short-term-search').classList.add('active');
   document.querySelector('[data-type="short-term"]').classList.add('active');
   document.querySelector('#short-term-properties').classList.add('active');
+}
+
+function populateLocationOptions() {
+  const locations = [...appData.shortTermProperties, ...appData.longTermProperties]
+    .map(p => p.location);
+  const unique = [...new Set(locations)];
+  ['location-short', 'location-long'].forEach(id => {
+    const select = document.getElementById(id);
+    if (select) {
+      select.innerHTML = '<option value="">All Locations</option>' +
+        unique.map(loc => `<option value="${loc}">${loc}</option>`).join('');
+    }
+  });
 }
 
 function setDefaultDates() {
@@ -162,6 +187,110 @@ function setupEventListeners() {
   document.querySelectorAll('.nav__link').forEach(link => {
     link.addEventListener('click', handleSmoothScroll);
   });
+}
+
+function setupGuestDropdown() {
+  guestField = document.querySelector('.guest-field');
+  if (!guestField) return;
+  guestMenu = guestField.querySelector('.guest-menu');
+  guestsInput = document.getElementById('guests');
+  guestsDisplay = document.getElementById('guests-display');
+  adultsCountEl = document.getElementById('adults-count');
+  childrenCountEl = document.getElementById('children-count');
+
+  updateGuestDisplay();
+
+  guestsDisplay.addEventListener('click', () => {
+    guestField.classList.toggle('active');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!guestField.contains(e.target)) {
+      guestField.classList.remove('active');
+    }
+  });
+
+  guestMenu.querySelectorAll('.guest-plus').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      changeGuestCount(btn.dataset.type, 1);
+    });
+  });
+  guestMenu.querySelectorAll('.guest-minus').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      changeGuestCount(btn.dataset.type, -1);
+    });
+  });
+}
+
+function changeGuestCount(type, delta) {
+  if (type === 'adults') {
+    adults = Math.max(1, adults + delta);
+  } else {
+    children = Math.max(0, children + delta);
+  }
+  updateGuestDisplay();
+}
+
+function updateGuestDisplay() {
+  if (!guestsDisplay) return;
+  adultsCountEl.textContent = adults;
+  childrenCountEl.textContent = children;
+  const total = adults + children;
+  guestsInput.value = total;
+  guestsDisplay.value = `${adults} adult${adults > 1 ? 's' : ''}${children > 0 ? ", " + children + " child" + (children > 1 ? 'ren' : '') : ''}`;
+}
+
+function applyQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has('mode')) return;
+
+  const isShort = params.get('mode') === 'short';
+  const tab = isShort ? 'short-term' : 'long-term';
+
+  // activate correct tab and grid
+  document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+  const tabBtn = document.querySelector(`[data-tab="${tab}"]`);
+  if (tabBtn) tabBtn.classList.add('active');
+
+  searchContainers.forEach(c => c.classList.remove('active'));
+  const activeSearch = document.getElementById(`${tab}-search`);
+  if (activeSearch) activeSearch.classList.add('active');
+
+  propertyToggle.forEach(b => b.classList.remove('active'));
+  const toggleBtn = document.querySelector(`.toggle-btn[data-type="${tab}"]`);
+  if (toggleBtn) toggleBtn.classList.add('active');
+
+  propertyGrids.forEach(g => g.classList.remove('active'));
+  const activeGrid = document.getElementById(`${tab}-properties`);
+  if (activeGrid) activeGrid.classList.add('active');
+
+  if (isShort) {
+    if (params.get('location')) document.getElementById('location-short').value = params.get('location');
+    if (params.get('checkin')) document.getElementById('checkin').value = params.get('checkin');
+    if (params.get('checkout')) document.getElementById('checkout').value = params.get('checkout');
+    if (params.get('guests')) {
+      document.getElementById('guests').value = params.get('guests');
+      adults = parseInt(params.get('adults') || params.get('guests')) || 1;
+      children = parseInt(params.get('children') || 0);
+      updateGuestDisplay();
+    }
+  } else {
+    if (params.get('location')) document.getElementById('location-long').value = params.get('location');
+    if (params.get('movein')) document.getElementById('movein').value = params.get('movein');
+    if (params.get('lease')) document.getElementById('lease').value = params.get('lease');
+    if (params.get('budget')) document.getElementById('budget').value = params.get('budget');
+  }
+
+  const searchParams = getSearchParameters(isShort);
+  const filtered = filterProperties(searchParams, isShort);
+  renderFilteredProperties(filtered, isShort);
+  if (document.getElementById('properties')) {
+    document.getElementById('properties').scrollIntoView();
+  }
+
+  history.replaceState(null, '', window.location.pathname);
 }
 
 function handleSearchTabSwitch(e) {
@@ -206,30 +335,43 @@ function handleFilterToggle(e) {
 
 function handleSearch(e) {
   e.preventDefault();
-  
+
   // Get search parameters
   const isShortTerm = document.querySelector('#short-term-search').classList.contains('active');
   const searchParams = getSearchParameters(isShortTerm);
-  
-  // Filter and render properties based on search
+
+  // If we are on a page without results, redirect to the properties page
+  if (!document.getElementById('properties')) {
+    redirectToProperties(searchParams, isShortTerm);
+    return;
+  }
+
   const filteredProperties = filterProperties(searchParams, isShortTerm);
   renderFilteredProperties(filteredProperties, isShortTerm);
-  
-  // Scroll to results
+
   document.getElementById('properties').scrollIntoView({ behavior: 'smooth' });
+}
+
+function redirectToProperties(params, isShortTerm) {
+  const query = new URLSearchParams();
+  query.set('mode', isShortTerm ? 'short' : 'long');
+  Object.keys(params).forEach(key => query.set(key, params[key]));
+  query.set('adults', adults);
+  query.set('children', children);
+  window.location.href = `/luxury/properties/?${query.toString()}`;
 }
 
 function getSearchParameters(isShortTerm) {
   if (isShortTerm) {
     return {
-      location: document.getElementById('location-short').value.toLowerCase(),
+      location: document.getElementById('location-short').value,
       checkin: document.getElementById('checkin').value,
       checkout: document.getElementById('checkout').value,
       guests: parseInt(document.getElementById('guests').value)
     };
   } else {
     return {
-      location: document.getElementById('location-long').value.toLowerCase(),
+      location: document.getElementById('location-long').value,
       movein: document.getElementById('movein').value,
       lease: document.getElementById('lease').value,
       budget: document.getElementById('budget').value
@@ -242,7 +384,7 @@ function filterProperties(params, isShortTerm) {
   
   return properties.filter(property => {
     // Location filter
-    if (params.location && !property.location.toLowerCase().includes(params.location)) {
+    if (params.location && params.location !== '' && property.location !== params.location) {
       return false;
     }
     
@@ -274,7 +416,8 @@ function filterProperties(params, isShortTerm) {
 function renderFilteredProperties(properties, isShortTerm) {
   const gridId = isShortTerm ? 'short-term-properties' : 'long-term-properties';
   const grid = document.getElementById(gridId);
-  
+  if (!grid) return;
+
   if (properties.length === 0) {
     grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 3rem;">No properties found matching your criteria.</div>';
     return;
@@ -292,11 +435,13 @@ function renderProperties() {
 
 function renderShortTermProperties() {
   const grid = document.getElementById('short-term-properties');
+  if (!grid) return;
   grid.innerHTML = appData.shortTermProperties.map(createShortTermPropertyCard).join('');
 }
 
 function renderLongTermProperties() {
   const grid = document.getElementById('long-term-properties');
+  if (!grid) return;
   grid.innerHTML = appData.longTermProperties.map(createLongTermPropertyCard).join('');
 }
 
@@ -344,15 +489,17 @@ function createLongTermPropertyCard(property) {
 }
 
 function handleSmoothScroll(e) {
-  e.preventDefault();
   const targetId = e.target.getAttribute('href');
-  const targetElement = document.querySelector(targetId);
-  
-  if (targetElement) {
-    targetElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
+  // Only intercept anchor links on the same page
+  if (targetId && targetId.startsWith('#')) {
+    e.preventDefault();
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 }
 

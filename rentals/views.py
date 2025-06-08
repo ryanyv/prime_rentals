@@ -8,7 +8,22 @@ import django_filters
 
 
 class HomeView(generic.TemplateView):
-    template_name = 'home.html'
+    """Render the luxury landing page as the site's homepage."""
+    template_name = 'luxury_home.html'
+
+
+class LuxuryHomeView(generic.TemplateView):
+    template_name = 'luxury_home.html'
+
+
+class LuxuryPropertiesView(generic.TemplateView):
+    """Display the luxury property listings page."""
+    template_name = 'luxury_properties.html'
+
+
+class LuxuryAboutView(generic.TemplateView):
+    """Dedicated luxury about page."""
+    template_name = 'luxury_about.html'
 
 
 class PropertyFilter(django_filters.FilterSet):
