@@ -4,6 +4,11 @@ from django.utils.text import slugify
 from django.db.models import Avg
 from django.db.models.signals import pre_save, post_save, post_delete
 from django.dispatch import receiver
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from django.db.models.manager import RelatedManager
+    from .models import Review
 
 
 class Amenity(models.Model):
@@ -45,6 +50,9 @@ class Property(models.Model):
     available_from = models.DateField()
     available_to = models.DateField()
     rating = models.FloatField(default=0, blank=True)
+
+    if TYPE_CHECKING:
+        reviews: "RelatedManager[Review]"
 
     def __str__(self):
         return self.title

@@ -56,10 +56,9 @@ class BookingCreateView(generic.CreateView):
     form_class = BookingForm
     template_name = 'booking_form.html'
 
-    def get_success_url(self):
-        return reverse_lazy('rentals:property_detail', kwargs={'slug': self.object.property.slug})
-
     def form_valid(self, form):
         form.instance.property_id = self.kwargs['pk']
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        self.success_url = reverse_lazy('rentals:property_detail', kwargs={'slug': form.instance.property.slug})
+        return response
 
