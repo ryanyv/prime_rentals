@@ -410,7 +410,8 @@ function filterProperties(params, isShortTerm) {
 function renderFilteredProperties(properties, isShortTerm) {
   const gridId = isShortTerm ? 'short-term-properties' : 'long-term-properties';
   const grid = document.getElementById(gridId);
-  
+  if (!grid) return;
+
   if (properties.length === 0) {
     grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 3rem;">No properties found matching your criteria.</div>';
     return;
@@ -428,11 +429,13 @@ function renderProperties() {
 
 function renderShortTermProperties() {
   const grid = document.getElementById('short-term-properties');
+  if (!grid) return;
   grid.innerHTML = appData.shortTermProperties.map(createShortTermPropertyCard).join('');
 }
 
 function renderLongTermProperties() {
   const grid = document.getElementById('long-term-properties');
+  if (!grid) return;
   grid.innerHTML = appData.longTermProperties.map(createLongTermPropertyCard).join('');
 }
 
