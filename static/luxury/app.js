@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
   renderProperties();
   setupEventListeners();
   setupGuestDropdown();
+  applyQueryParams();
 });
 
 function initializeApp() {
@@ -235,6 +236,57 @@ function updateGuestDisplay() {
   guestsDisplay.value = `${adults} adult${adults > 1 ? 's' : ''}${children > 0 ? ", " + children + " child" + (children > 1 ? 'ren' : '') : ''}`;
 }
 
+function applyQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has('mode')) return;
+
+  const isShort = params.get('mode') === 'short';
+  const tab = isShort ? 'short-term' : 'long-term';
+
+  // activate correct tab and grid
+  document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+  const tabBtn = document.querySelector(`[data-tab="${tab}"]`);
+  if (tabBtn) tabBtn.classList.add('active');
+
+  searchContainers.forEach(c => c.classList.remove('active'));
+  const activeSearch = document.getElementById(`${tab}-search`);
+  if (activeSearch) activeSearch.classList.add('active');
+
+  propertyToggle.forEach(b => b.classList.remove('active'));
+  const toggleBtn = document.querySelector(`.toggle-btn[data-type="${tab}"]`);
+  if (toggleBtn) toggleBtn.classList.add('active');
+
+  propertyGrids.forEach(g => g.classList.remove('active'));
+  const activeGrid = document.getElementById(`${tab}-properties`);
+  if (activeGrid) activeGrid.classList.add('active');
+
+  if (isShort) {
+    if (params.get('location')) document.getElementById('location-short').value = params.get('location');
+    if (params.get('checkin')) document.getElementById('checkin').value = params.get('checkin');
+    if (params.get('checkout')) document.getElementById('checkout').value = params.get('checkout');
+    if (params.get('guests')) {
+      document.getElementById('guests').value = params.get('guests');
+      adults = parseInt(params.get('adults') || params.get('guests')) || 1;
+      children = parseInt(params.get('children') || 0);
+      updateGuestDisplay();
+    }
+  } else {
+    if (params.get('location')) document.getElementById('location-long').value = params.get('location');
+    if (params.get('movein')) document.getElementById('movein').value = params.get('movein');
+    if (params.get('lease')) document.getElementById('lease').value = params.get('lease');
+    if (params.get('budget')) document.getElementById('budget').value = params.get('budget');
+  }
+
+  const searchParams = getSearchParameters(isShort);
+  const filtered = filterProperties(searchParams, isShort);
+  renderFilteredProperties(filtered, isShort);
+  if (document.getElementById('properties')) {
+    document.getElementById('properties').scrollIntoView();
+  }
+
+  history.replaceState(null, '', window.location.pathname);
+}
+
 function handleSearchTabSwitch(e) {
   const targetTab = e.target.dataset.tab;
   
@@ -277,17 +329,30 @@ function handleFilterToggle(e) {
 
 function handleSearch(e) {
   e.preventDefault();
-  
+
   // Get search parameters
   const isShortTerm = document.querySelector('#short-term-search').classList.contains('active');
   const searchParams = getSearchParameters(isShortTerm);
-  
-  // Filter and render properties based on search
+
+  // If we are on a page without results, redirect to the properties page
+  if (!document.getElementById('properties')) {
+    redirectToProperties(searchParams, isShortTerm);
+    return;
+  }
+
   const filteredProperties = filterProperties(searchParams, isShortTerm);
   renderFilteredProperties(filteredProperties, isShortTerm);
-  
-  // Scroll to results
+
   document.getElementById('properties').scrollIntoView({ behavior: 'smooth' });
+}
+
+function redirectToProperties(params, isShortTerm) {
+  const query = new URLSearchParams();
+  query.set('mode', isShortTerm ? 'short' : 'long');
+  Object.keys(params).forEach(key => query.set(key, params[key]));
+  query.set('adults', adults);
+  query.set('children', children);
+  window.location.href = `/luxury/properties/?${query.toString()}`;
 }
 
 function getSearchParameters(isShortTerm) {
