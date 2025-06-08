@@ -906,6 +906,71 @@ p {
   outline: none;
 }
 
+select.search-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 2rem;
+  background-image: var(--select-caret-dark);
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 16px;
+}
+
+/* Guest dropdown styles */
+.guest-field {
+  position: relative;
+}
+
+.guest-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: var(--luxury-shadow);
+  z-index: 10;
+}
+
+.guest-field.active .guest-menu {
+  display: block;
+}
+
+.guest-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.guest-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.guest-plus,
+.guest-minus {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-muted);
+  color: var(--color-text);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.guest-plus:hover,
+.guest-minus:hover {
+  background: var(--gold-gradient);
+  color: var(--color-btn-primary-text);
+}
+
 .search-input::placeholder {
   color: var(--color-text-muted);
 }

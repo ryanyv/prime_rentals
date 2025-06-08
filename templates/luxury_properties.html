@@ -48,16 +48,29 @@
                             <label class="search-label">Check-out</label>
                             <input type="date" id="checkout" class="search-input">
                         </div>
-                        <div class="search-field">
-                            <label class="search-label">Guests</label>
-                            <select id="guests" class="search-input">
-                                <option value="1">1 Guest</option>
-                                <option value="2">2 Guests</option>
-                                <option value="4">4 Guests</option>
-                                <option value="6">6 Guests</option>
-                                <option value="8">8+ Guests</option>
-                            </select>
+                    <div class="search-field guest-field">
+                        <label class="search-label">Guests</label>
+                        <input type="text" id="guests-display" class="search-input" readonly placeholder="Add guests">
+                        <input type="hidden" id="guests" value="1">
+                        <div class="guest-menu">
+                            <div class="guest-row">
+                                <span class="guest-type">Adults</span>
+                                <div class="guest-controls">
+                                    <button type="button" class="guest-minus" data-type="adults">-</button>
+                                    <span id="adults-count">1</span>
+                                    <button type="button" class="guest-plus" data-type="adults">+</button>
+                                </div>
+                            </div>
+                            <div class="guest-row">
+                                <span class="guest-type">Children</span>
+                                <div class="guest-controls">
+                                    <button type="button" class="guest-minus" data-type="children">-</button>
+                                    <span id="children-count">0</span>
+                                    <button type="button" class="guest-plus" data-type="children">+</button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
                         <button class="search-btn">Search</button>
                     </div>
                 </div>

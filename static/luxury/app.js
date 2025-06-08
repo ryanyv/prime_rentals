@@ -106,6 +106,9 @@ const propertyToggle = document.querySelectorAll('.toggle-btn');
 const propertyGrids = document.querySelectorAll('.property-grid');
 const filterPills = document.querySelectorAll('.filter-pill');
 const searchButtons = document.querySelectorAll('.search-btn');
+let guestField, guestMenu, guestsInput, guestsDisplay, adultsCountEl, childrenCountEl;
+let adults = 1;
+let children = 0;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -114,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
   setDefaultDates();
   renderProperties();
   setupEventListeners();
+  setupGuestDropdown();
 });
 
 function initializeApp() {
@@ -176,6 +180,53 @@ function setupEventListeners() {
   document.querySelectorAll('.nav__link').forEach(link => {
     link.addEventListener('click', handleSmoothScroll);
   });
+}
+
+function setupGuestDropdown() {
+  guestField = document.querySelector('.guest-field');
+  if (!guestField) return;
+  guestMenu = guestField.querySelector('.guest-menu');
+  guestsInput = document.getElementById('guests');
+  guestsDisplay = document.getElementById('guests-display');
+  adultsCountEl = document.getElementById('adults-count');
+  childrenCountEl = document.getElementById('children-count');
+
+  updateGuestDisplay();
+
+  guestField.addEventListener('click', () => {
+    guestField.classList.toggle('active');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!guestField.contains(e.target)) {
+      guestField.classList.remove('active');
+    }
+  });
+
+  guestMenu.querySelectorAll('.guest-plus').forEach(btn => {
+    btn.addEventListener('click', () => changeGuestCount(btn.dataset.type, 1));
+  });
+  guestMenu.querySelectorAll('.guest-minus').forEach(btn => {
+    btn.addEventListener('click', () => changeGuestCount(btn.dataset.type, -1));
+  });
+}
+
+function changeGuestCount(type, delta) {
+  if (type === 'adults') {
+    adults = Math.max(1, adults + delta);
+  } else {
+    children = Math.max(0, children + delta);
+  }
+  updateGuestDisplay();
+}
+
+function updateGuestDisplay() {
+  if (!guestsDisplay) return;
+  adultsCountEl.textContent = adults;
+  childrenCountEl.textContent = children;
+  const total = adults + children;
+  guestsInput.value = total;
+  guestsDisplay.value = `${adults} adult${adults > 1 ? 's' : ''}${children > 0 ? ", " + children + " child" + (children > 1 ? 'ren' : '') : ''}`;
 }
 
 function handleSearchTabSwitch(e) {
