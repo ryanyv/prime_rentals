@@ -1074,6 +1074,12 @@ p {
   box-shadow: var(--gold-glow);
 }
 
+/* Compact search header on the properties page */
+.property-search {
+  padding: 2rem 0;
+  background: var(--color-background);
+}
+
 .property-grid {
   display: none;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

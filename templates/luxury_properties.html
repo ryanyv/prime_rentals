@@ -27,22 +27,19 @@
     </header>
 
     <!-- Search Section -->
-    <section id="search" class="hero">
-        <div class="hero__overlay"></div>
+    <section id="search" class="property-search">
         <div class="container">
-            <div class="hero__content">
-                <!-- Search Tabs -->
-                <div class="search-tabs">
-                    <button class="search-tab active" data-tab="short-term">Short-term Stays</button>
-                    <button class="search-tab" data-tab="long-term">Long-term Rentals</button>
-                </div>
-                <!-- Short-term Search -->
-                <div id="short-term-search" class="search-container active">
-                    <div class="search-bar">
-                        <div class="search-field">
-                            <label class="search-label">Location</label>
-                            <input type="text" id="location-short" class="search-input" placeholder="Where are you going?">
-                        </div>
+            <div class="search-tabs" style="display: none;">
+                <button class="search-tab active" data-tab="short-term">Short-term Stays</button>
+                <button class="search-tab" data-tab="long-term">Long-term Rentals</button>
+            </div>
+            <!-- Short-term Search -->
+            <div id="short-term-search" class="search-container active">
+                <div class="search-bar">
+                    <div class="search-field">
+                        <label class="search-label">Location</label>
+                        <input type="text" id="location-short" class="search-input" placeholder="Where are you going?">
+                    </div>
                         <div class="search-field">
                             <label class="search-label">Check-in</label>
                             <input type="date" id="checkin" class="search-input">
@@ -63,20 +60,14 @@
                         </div>
                         <button class="search-btn">Search</button>
                     </div>
-                    <div class="quick-filters">
-                        <button class="filter-pill active" data-filter="all">All Types</button>
-                        <button class="filter-pill" data-filter="entire">Entire Place</button>
-                        <button class="filter-pill" data-filter="private">Private Room</button>
-                        <button class="filter-pill" data-filter="shared">Shared Room</button>
-                    </div>
                 </div>
-                <!-- Long-term Search -->
-                <div id="long-term-search" class="search-container">
-                    <div class="search-bar">
-                        <div class="search-field">
-                            <label class="search-label">Location</label>
-                            <input type="text" id="location-long" class="search-input" placeholder="City or neighborhood">
-                        </div>
+            <!-- Long-term Search -->
+            <div id="long-term-search" class="search-container" style="display: none;">
+                <div class="search-bar">
+                    <div class="search-field">
+                        <label class="search-label">Location</label>
+                        <input type="text" id="location-long" class="search-input" placeholder="City or neighborhood">
+                    </div>
                         <div class="search-field">
                             <label class="search-label">Move-in Date</label>
                             <input type="date" id="movein" class="search-input">
@@ -101,14 +92,7 @@
                         </div>
                         <button class="search-btn">Search</button>
                     </div>
-                    <div class="quick-filters">
-                        <button class="filter-pill active" data-filter="all">All Properties</button>
-                        <button class="filter-pill" data-filter="furnished">Furnished</button>
-                        <button class="filter-pill" data-filter="pets">Pet-Friendly</button>
-                        <button class="filter-pill" data-filter="parking">Parking</button>
-                    </div>
                 </div>
-            </div>
         </div>
     </section>
 
