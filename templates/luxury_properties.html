@@ -18,10 +18,10 @@
                     <span class="logo__tagline">Luxury Living Redefined</span>
                 </div>
                 <nav class="nav">
-                    <a href="#hero" class="nav__link">Home</a>
-                    <a href="#about" class="nav__link">About</a>
+                    <a href="{% url 'rentals:home' %}#hero" class="nav__link">Home</a>
+                    <a href="{% url 'rentals:home' %}#about" class="nav__link">About</a>
                     <a href="{% url 'rentals:luxury_properties' %}" class="nav__link">Properties</a>
-                    <a href="#payment" class="nav__link">Payment</a>
+                    <a href="{% url 'rentals:home' %}#payment" class="nav__link">Payment</a>
                 </nav>
             </div>
         </div>
@@ -115,96 +115,16 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
+    <!-- Properties Section -->
+    <section id="properties" class="properties">
         <div class="container">
-            <h2 class="section-title">Our Elite Team</h2>
-            <p class="section-subtitle">Meet the luxury real estate experts dedicated to your perfect stay</p>
-            <div class="team-grid">
-                <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&crop=face" alt="Sarah Johnson" class="team-image">
-                    <div class="team-info">
-                        <h3 class="team-name">Sarah Johnson</h3>
-                        <p class="team-role">Founding Partner & CEO</p>
-                        <p class="team-experience">15+ years in luxury real estate</p>
-                        <div class="team-specialties">
-                            <span class="specialty-tag">Luxury Properties</span>
-                            <span class="specialty-tag">International Clients</span>
-                            <span class="specialty-tag">Investment Advisory</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face" alt="Michael Chen" class="team-image">
-                    <div class="team-info">
-                        <h3 class="team-name">Michael Chen</h3>
-                        <p class="team-role">Director of Short-Term Rentals</p>
-                        <p class="team-experience">10+ years in hospitality & vacation rentals</p>
-                        <div class="team-specialties">
-                            <span class="specialty-tag">Vacation Properties</span>
-                            <span class="specialty-tag">Revenue Optimization</span>
-                            <span class="specialty-tag">Guest Experience</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop&crop=face" alt="Elena Rodriguez" class="team-image">
-                    <div class="team-info">
-                        <h3 class="team-name">Elena Rodriguez</h3>
-                        <p class="team-role">Long-Term Rental Specialist</p>
-                        <p class="team-experience">8+ years in residential leasing</p>
-                        <div class="team-specialties">
-                            <span class="specialty-tag">Residential Leasing</span>
-                            <span class="specialty-tag">Tenant Relations</span>
-                            <span class="specialty-tag">Property Management</span>
-                        </div>
-                    </div>
-                </div>
+            <h2 class="section-title">Featured Properties</h2>
+            <div class="property-toggle">
+                <button class="toggle-btn active" data-type="short-term">Short-term Stays</button>
+                <button class="toggle-btn" data-type="long-term">Long-term Rentals</button>
             </div>
-        </div>
-    </section>
-
-
-    <!-- Payment Section -->
-    <section id="payment" class="payment">
-        <div class="container">
-            <h2 class="section-title">Premium Payment Options</h2>
-            <p class="section-subtitle">Choose from our secure and convenient payment methods</p>
-            <div class="payment-grid">
-                <div class="payment-card">
-                    <div class="payment-icon">💳</div>
-                    <h3 class="payment-title">Credit/Debit Card</h3>
-                    <p class="payment-fee">2.9% processing fee</p>
-                    <p class="payment-description">Secure payment with major credit cards</p>
-                    <ul class="payment-features">
-                        <li>Instant Processing</li>
-                        <li>Secure Transactions</li>
-                        <li>All Major Cards</li>
-                    </ul>
-                </div>
-                <div class="payment-card">
-                    <div class="payment-icon">💵</div>
-                    <h3 class="payment-title">Cash Payment</h3>
-                    <p class="payment-fee">No fees</p>
-                    <p class="payment-description">In-person cash transactions</p>
-                    <ul class="payment-features">
-                        <li>No Fees</li>
-                        <li>Local Transactions</li>
-                        <li>Immediate Payment</li>
-                    </ul>
-                </div>
-                <div class="payment-card">
-                    <div class="payment-icon">₿</div>
-                    <h3 class="payment-title">Cryptocurrency</h3>
-                    <p class="payment-fee">0.5% processing fee</p>
-                    <p class="payment-description">Bitcoin & Ethereum accepted</p>
-                    <ul class="payment-features">
-                        <li>Low Fees</li>
-                        <li>Blockchain Security</li>
-                        <li>Future of Payments</li>
-                    </ul>
-                </div>
-            </div>
+            <div id="short-term-properties" class="property-grid active"></div>
+            <div id="long-term-properties" class="property-grid"></div>
         </div>
     </section>
 
