@@ -2,6 +2,7 @@
 {% load crispy_forms_tags static %}
 {% block content %}
 <h2>Add Property</h2>
+<a class="btn btn-secondary mb-3" href="{% url 'rentals:property_list' %}">Back to Properties</a>
 <form method="post" enctype="multipart/form-data" id="property-form">
     {% csrf_token %}
     {{ form|crispy }}

@@ -110,3 +110,11 @@ class PropertyCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Create
     def get_success_url(self):
         return reverse_lazy('rentals:property_detail', kwargs={'slug': self.object.slug})
 
+
+class PropertyAdminListView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
+    model = Property
+    template_name = 'admin/property_list.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
