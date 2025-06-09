@@ -1,18 +1,54 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h2>{{ object.title }}</h2>
-<img src="{{ object.main_image.url }}" class="img-fluid mb-3">
-<p>{{ object.description }}</p>
-<div class="mb-3">
-    <iframe width="100%" height="450" style="border:0" loading="lazy" allowfullscreen
-        src="https://www.google.com/maps?q={{ object.location|urlencode }}&output=embed">
-    </iframe>
+<div class="card mb-4">
+  <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{{ object.main_image.url }}" class="d-block w-100" alt="{{ object.title }}">
+      </div>
+      {% for img in object.gallery.all %}
+      <div class="carousel-item">
+        <img src="{{ img.image.url }}" class="d-block w-100" alt="">
+      </div>
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <div class="card-body">
+    <h2 class="card-title">{{ object.title }}</h2>
+    <p class="card-text">{{ object.description }}</p>
+    <ul class="list-unstyled">
+      <li><strong>Location:</strong> {{ object.location }}</li>
+      <li><strong>Bedrooms:</strong> {{ object.bedrooms }}</li>
+      <li><strong>Bathrooms:</strong> {{ object.bathrooms }}</li>
+      <li><strong>Guests:</strong> {{ object.guests }}</li>
+      <li><strong>Square Feet:</strong> {{ object.sqft }}</li>
+    </ul>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <div id="availability-calendar" data-min="{{ object.available_from|date:'Y-m-d' }}" data-max="{{ object.available_to|date:'Y-m-d' }}"></div>
+      </div>
+      <div class="col-md-6">
+        <iframe width="100%" height="300" style="border:0" loading="lazy" allowfullscreen
+            src="https://www.google.com/maps?q={{ object.location|urlencode }}&output=embed"></iframe>
+      </div>
+    </div>
+    <a href="{% url 'rentals:book_property' object.id %}" class="btn btn-success mt-3">Book Now</a>
+  </div>
 </div>
-<h4>Gallery</h4>
-<div class="row">
-    {% for img in object.gallery.all %}
-    <div class="col-md-3"><img src="{{ img.image.url }}" class="img-fluid" /></div>
-    {% endfor %}
-</div>
-<a href="{% url 'rentals:book_property' object.id %}" class="btn btn-success mt-3">Book Now</a>
+{{ booked_dates|json_script:"booked-dates" }}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="{% static 'property_detail.js' %}"></script>
 {% endblock %}

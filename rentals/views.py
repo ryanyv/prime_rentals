@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django_filters.views import FilterView
 from .models import Property, TeamMember, Booking
 from .forms import BookingForm, ContactForm
+import datetime
 import django_filters
 
 
@@ -68,6 +69,18 @@ class PropertyDetailView(generic.DetailView):
     template_name = 'property_detail.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+    queryset = Property.objects.prefetch_related('gallery', 'bookings')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        booked = []
+        for booking in self.object.bookings.all():
+            current = booking.check_in
+            while current <= booking.check_out:
+                booked.append(current.isoformat())
+                current += datetime.timedelta(days=1)
+        context['booked_dates'] = booked
+        return context
 
 
 class TeamListView(generic.ListView):
