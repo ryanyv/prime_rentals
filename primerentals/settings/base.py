@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import Any, cast
 import importlib
 try:
     import environ
@@ -17,11 +18,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 if environ:
     env = environ.Env(DEBUG=(bool, False))
     environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-    SECRET_KEY = env('SECRET_KEY', default='insecure')
-    DEBUG = env.bool('DEBUG', default=False)
-    ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+    SECRET_KEY = env('SECRET_KEY', default=cast(Any, 'insecure'))
+    DEBUG = env.bool('DEBUG', default=cast(Any, False))
+    ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=cast(Any, ['*']))
     DATABASES = {
-        'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
+        'default': env.db('DATABASE_URL', default=cast(Any, f'sqlite:///{BASE_DIR / "db.sqlite3"}'))
     }
 else:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure')
