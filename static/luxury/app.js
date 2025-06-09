@@ -115,10 +115,11 @@ function initLuxuryPage() {
   initializeApp();
   populateLocationOptions();
   setDefaultDates();
+  applyQueryParams();
+  initDatePicker();
   renderProperties();
   setupEventListeners();
   setupGuestDropdown();
-  applyQueryParams();
 }
 
 if (document.readyState === 'loading') {
@@ -148,18 +149,40 @@ function populateLocationOptions() {
   });
 }
 
+function formatDate(date) {
+  return date.toISOString().split('T')[0];
+}
+
+
 function setDefaultDates() {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
-  
-  const formatDate = (date) => {
-    return date.toISOString().split('T')[0];
-  };
-  
+
   document.getElementById('checkin').value = formatDate(today);
   document.getElementById('checkout').value = formatDate(tomorrow);
+  document.getElementById('daterange').value =
+    formatDate(today) + ' to ' + formatDate(tomorrow);
   document.getElementById('movein').value = formatDate(today);
+}
+
+function initDatePicker() {
+  if (typeof flatpickr === 'undefined') return;
+  flatpickr('#daterange', {
+    mode: 'range',
+    dateFormat: 'Y-m-d',
+    minDate: 'today',
+    defaultDate: [
+      document.getElementById('checkin').value,
+      document.getElementById('checkout').value
+    ],
+    onChange: function(selectedDates) {
+      if (selectedDates.length === 2) {
+        document.getElementById('checkin').value = formatDate(selectedDates[0]);
+        document.getElementById('checkout').value = formatDate(selectedDates[1]);
+      }
+    }
+  });
 }
 
 function setupEventListeners() {
@@ -270,6 +293,10 @@ function applyQueryParams() {
     if (params.get('location')) document.getElementById('location-short').value = params.get('location');
     if (params.get('checkin')) document.getElementById('checkin').value = params.get('checkin');
     if (params.get('checkout')) document.getElementById('checkout').value = params.get('checkout');
+    if (params.get('checkin') && params.get('checkout')) {
+      document.getElementById('daterange').value =
+        params.get('checkin') + ' to ' + params.get('checkout');
+    }
     if (params.get('guests')) {
       document.getElementById('guests').value = params.get('guests');
       adults = parseInt(params.get('adults') || params.get('guests')) || 1;

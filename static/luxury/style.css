@@ -1432,3 +1432,24 @@ select.search-input {
     justify-content: center;
   }
 }
+
+/* Flatpickr custom styling */
+.flatpickr-calendar {
+  font-size: 1.3rem;
+}
+
+.flatpickr-day {
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+}
+
+.flatpickr-day.inRange,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
