@@ -69,6 +69,7 @@ class PropertyDetailView(generic.DetailView):
     template_name = 'property_detail.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+    queryset = Property.objects.prefetch_related('gallery', 'bookings')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

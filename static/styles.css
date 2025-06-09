@@ -37,3 +37,6 @@ body {
 .container h2 {
     color: #d4af37;
 }
+
+.ui-datepicker .booked a { background-color: #dc3545 !important; color: #fff !important; }
+
