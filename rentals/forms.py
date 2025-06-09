@@ -1,7 +1,11 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from .models import Booking
+from .models import Booking, Property, PropertyImage
+
+
+class MultiFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
 
 
 class BookingForm(forms.ModelForm):
@@ -38,3 +42,49 @@ class ContactForm(forms.Form):
         if self.cleaned_data.get('honeypot'):
             raise ValidationError('Bad bot!')
         return ''
+
+
+class PropertyForm(forms.ModelForm):
+    images = forms.FileField(
+        widget=MultiFileInput,
+        required=False,
+        help_text="Upload one or more photos"
+    )
+    main_image_index = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+
+    class Meta:
+        model = Property
+        fields = [
+            'title',
+            'description',
+            'location',
+            'price_nightly',
+            'price_monthly',
+            'rental_type',
+            'bedrooms',
+            'bathrooms',
+            'guests',
+            'sqft',
+            'amenities',
+            'features',
+            'available_from',
+            'available_to',
+        ]
+        widgets = {
+            'amenities': forms.CheckboxSelectMultiple,
+            'features': forms.CheckboxSelectMultiple,
+            'available_from': forms.DateInput(attrs={'type': 'date'}),
+            'available_to': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+    def save(self, commit=True):
+        images = self.files.getlist('images')
+        main_idx = int(self.cleaned_data.get('main_image_index') or 0)
+        prop = super().save(commit=commit)
+        for idx, img in enumerate(images):
+            photo = PropertyImage.objects.create(property=prop, image=img)
+            if idx == main_idx:
+                prop.main_image = photo.image
+        if images and commit:
+            prop.save()
+        return prop

@@ -2,8 +2,9 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from django_filters.views import FilterView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Property, TeamMember, Booking
-from .forms import BookingForm, ContactForm
+from .forms import BookingForm, ContactForm, PropertyForm
 import django_filters
 
 
@@ -96,4 +97,16 @@ class BookingCreateView(generic.CreateView):
         response = super().form_valid(form)
         self.success_url = reverse_lazy('rentals:property_detail', kwargs={'slug': form.instance.property.slug})
         return response
+
+
+class PropertyCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
+    model = Property
+    form_class = PropertyForm
+    template_name = 'admin/property_form.html'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def get_success_url(self):
+        return reverse_lazy('rentals:property_detail', kwargs={'slug': self.object.slug})
 

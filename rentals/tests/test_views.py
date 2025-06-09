@@ -25,3 +25,19 @@ def test_short_term_list_view(client):
     response = client.get(url)
     assert response.status_code == 200
     assert b'P1' in response.content
+
+
+@pytest.mark.django_db
+def test_property_add_requires_login(client):
+    url = reverse('rentals:property_add')
+    response = client.get(url)
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_property_add_view_staff(client, django_user_model):
+    user = django_user_model.objects.create_user('staff', 's@example.com', 'pw', is_staff=True)
+    client.force_login(user)
+    url = reverse('rentals:property_add')
+    response = client.get(url)
+    assert response.status_code == 200

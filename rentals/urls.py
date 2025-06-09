@@ -14,4 +14,5 @@ urlpatterns = [
     path('team/', views.TeamListView.as_view(), name='team'),
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('book/<int:pk>/', views.BookingCreateView.as_view(), name='book_property'),
+    path('manage/properties/add/', views.PropertyCreateView.as_view(), name='property_add'),
 ]
