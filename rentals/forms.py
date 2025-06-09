@@ -52,6 +52,30 @@ class PropertyForm(forms.ModelForm):
     )
     main_image_index = forms.IntegerField(widget=forms.HiddenInput(), required=False)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Price fields become optional; validation handled in clean()
+        self.fields['price_nightly'].required = False
+        self.fields['price_monthly'].required = False
+        self.fields['sqft'].required = False
+
+    def clean(self):
+        cleaned = super().clean()
+        r_type = cleaned.get('rental_type')
+        nightly = cleaned.get('price_nightly')
+        monthly = cleaned.get('price_monthly')
+
+        if r_type == Property.SHORT and not nightly:
+            self.add_error('price_nightly', 'This field is required for short-term rentals.')
+        if r_type == Property.LONG and not monthly:
+            self.add_error('price_monthly', 'This field is required for long-term rentals.')
+        if r_type == Property.BOTH:
+            if not nightly:
+                self.add_error('price_nightly', 'This field is required when rental type is both.')
+            if not monthly:
+                self.add_error('price_monthly', 'This field is required when rental type is both.')
+        return cleaned
+
     class Meta:
         model = Property
         fields = [
@@ -67,14 +91,10 @@ class PropertyForm(forms.ModelForm):
             'sqft',
             'amenities',
             'features',
-            'available_from',
-            'available_to',
         ]
         widgets = {
             'amenities': forms.CheckboxSelectMultiple,
             'features': forms.CheckboxSelectMultiple,
-            'available_from': forms.DateInput(attrs={'type': 'date'}),
-            'available_to': forms.DateInput(attrs={'type': 'date'}),
         }
 
     def save(self, commit=True):

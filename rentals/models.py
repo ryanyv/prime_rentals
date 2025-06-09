@@ -28,27 +28,29 @@ class Feature(models.Model):
 class Property(models.Model):
     SHORT = 'short'
     LONG = 'long'
+    BOTH = 'both'
     RENTAL_CHOICES = [
         (SHORT, 'Short-term'),
         (LONG, 'Long-term'),
+        (BOTH, 'Both'),
     ]
 
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
     location = models.CharField(max_length=200)
-    price_nightly = models.DecimalField(max_digits=10, decimal_places=2)
-    price_monthly = models.DecimalField(max_digits=10, decimal_places=2)
+    price_nightly = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    price_monthly = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     rental_type = models.CharField(max_length=10, choices=RENTAL_CHOICES)
     bedrooms = models.PositiveIntegerField()
     bathrooms = models.PositiveIntegerField()
     guests = models.PositiveIntegerField()
-    sqft = models.PositiveIntegerField(verbose_name="Square footage")
+    sqft = models.PositiveIntegerField(verbose_name="Square footage", blank=True, null=True)
     amenities = models.ManyToManyField(Amenity, blank=True)
     features = models.ManyToManyField(Feature, blank=True)
     main_image = models.ImageField(upload_to='properties/main/', blank=True, null=True)
-    available_from = models.DateField()
-    available_to = models.DateField()
+    available_from = models.DateField(blank=True, null=True)
+    available_to = models.DateField(blank=True, null=True)
     rating = models.FloatField(default=0, blank=True)
 
     if TYPE_CHECKING:
