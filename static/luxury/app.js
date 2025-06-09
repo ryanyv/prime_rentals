@@ -153,29 +153,16 @@ function formatDate(date) {
   return date.toISOString().split('T')[0];
 }
 
-function formatDateTime(date) {
-  return (
-    date.getFullYear() +
-    '-' +
-    String(date.getMonth() + 1).padStart(2, '0') +
-    '-' +
-    String(date.getDate()).padStart(2, '0') +
-    ' ' +
-    String(date.getHours()).padStart(2, '0') +
-    ':' +
-    String(date.getMinutes()).padStart(2, '0')
-  );
-}
 
 function setDefaultDates() {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  document.getElementById('checkin').value = formatDateTime(today);
-  document.getElementById('checkout').value = formatDateTime(tomorrow);
+  document.getElementById('checkin').value = formatDate(today);
+  document.getElementById('checkout').value = formatDate(tomorrow);
   document.getElementById('daterange').value =
-    formatDateTime(today) + ' to ' + formatDateTime(tomorrow);
+    formatDate(today) + ' to ' + formatDate(tomorrow);
   document.getElementById('movein').value = formatDate(today);
 }
 
@@ -183,8 +170,7 @@ function initDatePicker() {
   if (typeof flatpickr === 'undefined') return;
   flatpickr('#daterange', {
     mode: 'range',
-    enableTime: true,
-    dateFormat: 'Y-m-d H:i',
+    dateFormat: 'Y-m-d',
     minDate: 'today',
     defaultDate: [
       document.getElementById('checkin').value,
@@ -192,8 +178,8 @@ function initDatePicker() {
     ],
     onChange: function(selectedDates) {
       if (selectedDates.length === 2) {
-        document.getElementById('checkin').value = formatDateTime(selectedDates[0]);
-        document.getElementById('checkout').value = formatDateTime(selectedDates[1]);
+        document.getElementById('checkin').value = formatDate(selectedDates[0]);
+        document.getElementById('checkout').value = formatDate(selectedDates[1]);
       }
     }
   });
