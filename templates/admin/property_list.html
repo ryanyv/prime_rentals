@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Manage Properties</h2>
+<a class="btn btn-success mb-3" href="{% url 'rentals:property_add' %}">Add Property</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Location</th>
+      <th>Rental Type</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for property in object_list %}
+    <tr>
+      <td>{{ property.title }}</td>
+      <td>{{ property.location }}</td>
+      <td>{{ property.get_rental_type_display }}</td>
+      <td><a href="/admin/rentals/property/{{ property.id }}/change/" class="btn btn-sm btn-primary">Edit</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
