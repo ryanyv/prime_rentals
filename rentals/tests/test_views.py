@@ -2,6 +2,7 @@ import pytest
 from django.urls import reverse
 from django.utils import timezone
 from rentals.models import Property
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 @pytest.mark.django_db
@@ -73,3 +74,5 @@ def test_property_list_view_staff(client, django_user_model):
     response = client.get(url)
     assert response.status_code == 200
     assert b'P2' in response.content
+
+

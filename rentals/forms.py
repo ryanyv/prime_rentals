@@ -8,6 +8,28 @@ class MultiFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
 
+class MultiImageField(forms.ImageField):
+    widget = MultiFileInput
+
+    def to_python(self, data):
+        if not data:
+            return []
+        if not isinstance(data, (list, tuple)):
+            data = [data]
+        files = []
+        for item in data:
+            files.append(super().to_python(item))
+        return files
+
+    def validate(self, data):
+        if self.required and not data:
+            raise ValidationError(self.error_messages['required'], code='required')
+
+    def run_validators(self, data):
+        for file in data:
+            super().run_validators(file)
+
+
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
@@ -45,11 +67,7 @@ class ContactForm(forms.Form):
 
 
 class PropertyForm(forms.ModelForm):
-    images = forms.FileField(
-        widget=MultiFileInput,
-        required=False,
-        help_text="Upload one or more photos"
-    )
+    images = MultiImageField(required=False, help_text="Upload one or more photos")
     main_image_index = forms.IntegerField(widget=forms.HiddenInput(), required=False)
 
     def __init__(self, *args, **kwargs):
@@ -98,7 +116,7 @@ class PropertyForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
-        images = self.files.getlist('images')
+        images = self.cleaned_data.get('images', [])
         main_idx = int(self.cleaned_data.get('main_image_index') or 0)
         prop = super().save(commit=commit)
         for idx, img in enumerate(images):
