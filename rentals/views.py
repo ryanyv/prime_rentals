@@ -6,20 +6,13 @@ from .models import Property, TeamMember, Booking
 from .forms import BookingForm, ContactForm
 import django_filters
 
-
 class HomeView(generic.TemplateView):
     """Render the luxury landing page as the site's homepage."""
     template_name = 'luxury_home.html'
 
-
-class LuxuryHomeView(generic.TemplateView):
-    template_name = 'luxury_home.html'
-
-
 class LuxuryPropertiesView(generic.TemplateView):
     """Display the luxury property listings page."""
     template_name = 'luxury_properties.html'
-
 
 class LuxuryAboutView(generic.TemplateView):
     """Dedicated luxury about page."""
