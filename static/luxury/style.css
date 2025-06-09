@@ -1435,7 +1435,13 @@ select.search-input {
 
 /* Flatpickr custom styling */
 .flatpickr-calendar {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+}
+
+.flatpickr-day {
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
 }
 
 .flatpickr-day.inRange,
